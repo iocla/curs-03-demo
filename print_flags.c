@@ -39,10 +39,17 @@ op = args[2][0];
         pusha					\n\
 	mov al, [a]				\n\
 	mov ah, [b]				\n\
-	add ah, al				\n\
+        mov bl, [op]                            \n\
+        cmp bl ,'-'                             \n\
+        je minus                                \n\
+	add al, ah				\n\
+        jmp saveresult                          \n\
+minus:                                          \n\
+        sub al, ah                              \n\
+saveresult:                                     \n\
         pushf                                   \n\
         pop [eflags]                            \n\
-        mov [result], ah                        \n\
+        mov [result], al                        \n\
 	popa                                    \n\
 ");
   printf("HEX      0x%02x %c 0x%02x = 0x%02x\n",  (uint8_t)a, op, (uint8_t)b, result);
